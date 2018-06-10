@@ -6,11 +6,11 @@
 struct Face
 {
   Face() = delete;
-  Face(std::vector<int> verts_)
+  Face(std::vector<unsigned int> const & verts_)
     : verts(verts_)
   {}
 
-  std::vector<int> verts;
+  std::vector<unsigned int> verts;
 };
 
 #endif

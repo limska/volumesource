@@ -3,8 +3,11 @@
 
 #include <string>
 #include <fstream>
+#include <set>
+#include <deque>
 
 #include "mesh/Mesh.h"
+#include "mesh/Vertex.h"
 #include "mesh/BoundingBox.h"
 
 class StlAsciiParser
@@ -50,6 +53,9 @@ private:
     FacetNormal(StlAsciiParser & host_) : State(host_) {}
     std::string name() const { return "facet normal"; };
     void handle(std::vector<std::string> const & words) override;
+    double nx;
+    double ny;
+    double nz;
   } facet_normal;
 
   struct OuterLoop : public State
@@ -59,11 +65,12 @@ private:
     void handle(std::vector<std::string> const & words) override;
   } outer_loop;
 
-  struct Vertex : public State
+  struct ReadVertex : public State
   {
-    Vertex(StlAsciiParser & host_) : State(host_), count(0) {}
+    ReadVertex(StlAsciiParser & host_);
     std::string name() const { return "vertex"; };
     void handle(std::vector<std::string> const & words) override;
+    std::vector<unsigned int> vertexIds;
   private:
     int count;
   } vertex;
@@ -96,6 +103,13 @@ private:
   std::vector<double> max_;
 
   State * curr_state;
+
+  unsigned int insertVertex(Vertex const & v);
+  //std::set<Vertex, Vertex::Compare> vertices;
+  std::deque<Vertex> vertices;
+
+  unsigned int insertFace(Face const & f);
+  std::deque<Face> faces;
 };
 
 

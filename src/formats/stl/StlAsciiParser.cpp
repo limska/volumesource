@@ -4,7 +4,8 @@
 #include <stdexcept>
 #include <vector>
 #include <limits>
-
+#include <sstream>
+#include <algorithm>
 
 
 namespace
@@ -17,6 +18,9 @@ namespace
   unsigned int const FACET_POS {0};
   std::string const  NORMAL {"normal"};
   unsigned int const NORMAL_POS {1};
+  unsigned int const NX_POS {2};
+  unsigned int const NY_POS {3};
+  unsigned int const NZ_POS {4};
   unsigned int const FACET_NORMAL_SIZE {5};
   
   std::string const  OUTER {"outer"};
@@ -27,6 +31,9 @@ namespace
   
   std::string const  VERTEX {"vertex"};
   unsigned int const VERTEX_POS {0};
+  unsigned int const VX_POS {1};
+  unsigned int const VY_POS {2};
+  unsigned int const VZ_POS {3};
   unsigned int const VERTEX_SIZE {4};
   
   std::string const  ENDLOOP {"endloop"};
@@ -43,27 +50,32 @@ namespace
 
   void parseLine(std::string const & line, std::vector<std::string> & words)
   {
-    std::string const del {" "};
-    std::string trimmed {line};
-    trimmed.erase(0, line.find_first_not_of(del));
+    // std::string const del {" "};
+    // std::string trimmed {line};
+    // trimmed.erase(0, line.find_first_not_of(del));
 
+    // words.clear();
+    // std::string::size_type cur_loc = 0;
+    // std::string::size_type del_loc = trimmed.find_first_of(del, cur_loc);
+    // if (del_loc > trimmed.size())
+    // {
+    //   words.push_back(trimmed);
+    //   return;
+    // }
+  
+    // while (del_loc <= trimmed.size())
+    // {
+    //   words.push_back(trimmed.substr(cur_loc,del_loc - cur_loc));
+    //   cur_loc = del_loc + 1;
+    //   del_loc = trimmed.find_first_of(del, cur_loc);
+    // }
+  
+    // words.push_back(trimmed.substr(cur_loc));
     words.clear();
-    std::string::size_type cur_loc = 0;
-    std::string::size_type del_loc = trimmed.find_first_of(del, cur_loc);
-    if (del_loc > trimmed.size())
-    {
-      words.push_back(trimmed);
-      return;
-    }
-  
-    while (del_loc <= trimmed.size())
-    {
-      words.push_back(trimmed.substr(cur_loc,del_loc - cur_loc));
-      cur_loc = del_loc + 1;
-      del_loc = trimmed.find_first_of(del, cur_loc);
-    }
-  
-    words.push_back(trimmed.substr(cur_loc));
+    std::string string_buffer;
+    std::stringstream ss(line);
+    while (ss >> string_buffer)
+      words.push_back(string_buffer);
   }
 
   void print(std::vector<std::string> const & words)
@@ -74,7 +86,6 @@ namespace
     }
     std::cout << std::endl;
   }
-
 }
 
 
@@ -128,7 +139,12 @@ void
 StlAsciiParser::
 getMesh(Mesh & mesh) const
 {
-  
+  std::cout << "Num Verticies: " << vertices.size() << std::endl;
+  std::cout << "Num Faces:     " << faces.size() << std::endl;
+  mesh.verts.clear();
+  std::copy(vertices.begin(),vertices.end(),std::back_inserter(mesh.verts));
+  mesh.faces.clear();
+  std::copy(faces.begin(),faces.end(),std::back_inserter(mesh.faces));
 }
 
 
@@ -251,6 +267,15 @@ handle(std::vector<std::string> const & words)
   checkKeyWord(words,FACET,FACET_POS);
   checkKeyWord(words,NORMAL,NORMAL_POS);
 
+  nx = std::stof(words[NX_POS]);
+  ny = std::stof(words[NY_POS]);
+  nz = std::stof(words[NZ_POS]);
+
+  // std::cout << "nx = " << nx
+  //           << ", ny = " << ny
+  //           << ", nz = " << nz
+  //           << std::endl;
+
   host.curr_state = &host.outer_loop;
 }
 
@@ -266,13 +291,36 @@ handle(std::vector<std::string> const & words)
   host.curr_state = &host.vertex;
 }
 
+StlAsciiParser:: 
+ReadVertex::
+ReadVertex(StlAsciiParser & host_)
+  : State(host_)
+  , count(0)
+  , vertexIds(3)
+{
+  vertexIds.clear();
+}
+
 void
 StlAsciiParser:: 
-Vertex::
+ReadVertex::
 handle(std::vector<std::string> const & words)
 {
   checkSize(words,VERTEX_SIZE);
   checkKeyWord(words,VERTEX,VERTEX_POS);
+
+  double vx = std::stof(words[VX_POS]);
+  double vy = std::stof(words[VY_POS]);
+  double vz = std::stof(words[VZ_POS]);
+
+  std::vector<double> point {vx,vy,vz};
+  host.updateMinMax(point);
+
+  Vertex v {vx,vy,vz};
+
+  unsigned int id = host.insertVertex(v);
+
+  vertexIds.push_back(id);
 
   ++count;
   if (count == 3)
@@ -280,6 +328,26 @@ handle(std::vector<std::string> const & words)
     count = 0;
     host.curr_state = &host.endloop;
   }
+}
+
+unsigned int
+StlAsciiParser:: 
+insertVertex(Vertex const & v)
+{
+  // std::cout << "X= " << v.coords[0] 
+  //           << ", Y= " << v.coords[1] 
+  //           << ", Z= " << v.coords[2] 
+  //           << std::endl; 
+  vertices.push_back(v);
+  return vertices.size() - 1;
+  // auto result = vertices.insert(v);
+  // bool inserted = result.second;
+  // if (inserted)
+  // {
+  //   return vertices.size() - 1;
+  // }
+
+  // return std::distance(vertices.begin(), result.first);
 }
 
 void
@@ -290,8 +358,21 @@ handle(std::vector<std::string> const & words)
   checkSize(words,ENDLOOP_SIZE);
   checkKeyWord(words,ENDLOOP,ENDLOOP_POS);
 
+  host.insertFace(Face(host.vertex.vertexIds));
+
+  host.vertex.vertexIds.clear();
+
   host.curr_state = &host.endfacet;
 }
+
+unsigned int
+StlAsciiParser:: 
+insertFace(Face const & f)
+{
+  faces.push_back(f);
+  return faces.size() - 1;
+}
+
 
 void
 StlAsciiParser:: 

@@ -2,6 +2,7 @@
 
 #include "Options.h"
 #include "mesh/Mesh.h"
+#include "mesh/BoundingBox.h"
 #include "calc/VolumeCalc.h"
 #include "formats/stl/StlAsciiParser.h"
 
@@ -18,6 +19,8 @@ main(int argc, char** argv)
 
   Mesh mesh;
   parser.getMesh(mesh);
+  BoundingBox bbox = parser.getBoundingBox();
+  std::cout << "Bounding Box Volume: " << bbox.volume() << std::endl;
 
   double volume;
   VolumeCalc().calculate(mesh,volume);

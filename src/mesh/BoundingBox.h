@@ -11,6 +11,11 @@ struct BoundingBox
     , max(max_)
   {}
 
+  double volume() const
+  {
+    return (max[0]-min[0])*(max[1]-min[1])*(max[2]-min[2]);
+  }
+
   std::vector<double> min;
   std::vector<double> max;
 

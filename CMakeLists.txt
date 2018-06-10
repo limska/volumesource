@@ -5,6 +5,7 @@ set(SOURCES
 	src/main/main.cpp
 	src/main/Options.cpp
 	src/calc/VolumeCalc.cpp
+	src/calc/Translate.cpp
 	src/formats/stl/StlAsciiParser.cpp
 	)
 

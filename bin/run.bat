@@ -1,5 +1,7 @@
 @echo off
 
+set START_DIR=%cd%
+
 set BIN_DIR="%~dp0"
 echo BIN_DIR=%BIN_DIR%
 
@@ -29,7 +31,7 @@ set BUILD_DIR=build\Release
 
 
 
-cd %BIN_DIR%
+cd %START_DIR%
 pause
 
 
