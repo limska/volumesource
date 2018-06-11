@@ -13,9 +13,9 @@ A simple web service which given an STL will produce a pricing quote for a 3D pr
 
 5. The web server returns just plain text for now. Needs to formated to JSON in future
 
-6. The STL files need to be uploaded to `volumesource\tests`.
+6. The STL files need to be uploaded to `volumesource\tests`
 
-7. Server port is hard coded to [http://localhost]
+7. Server port is hard coded to [http://localhost](http://localhost)
 
 
 ## Building
@@ -48,7 +48,7 @@ cd volumesource
 build\Release\volumesource.exe tests\block100.stl
 ```
 
-Open browser and enter [http://localhost/volume?filename=block100.stl]
+Open browser and enter [http://localhost/volume?filename=block100.stl](http://localhost/volume?filename=block100.stl)
 
 
 
