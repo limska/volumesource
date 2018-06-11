@@ -1,31 +1,32 @@
-#include <iostream>
-
 #include "Options.h"
-#include "mesh/Mesh.h"
-#include "mesh/BoundingBox.h"
-#include "calc/VolumeCalc.h"
-#include "formats/stl/StlAsciiParser.h"
+#include "server/server.hpp"
+
+#include <iostream>
+#include <string>
+#include <boost/asio.hpp>
 
 int
 main(int argc, char** argv)
 {
   Options opts(argc,argv);
 
-	std::cout << "Volume Source - Calculate volume of STL surface." << std::endl;
-  std::cout << "Calculating volume for: " << opts.getFileName() << std::endl;
+  std::string address = "0.0.0.0";
+  std::string port = "80";
+  std::string doc_root = "tests";
 
-  StlAsciiParser parser(opts.getFileName());
-  parser.parse();
+  try
+  {
+    // Initialise the server.
+    http::server::server s(address,port,doc_root);
 
-  Mesh mesh;
-  parser.getMesh(mesh);
-  BoundingBox bbox = parser.getBoundingBox();
-  std::cout << "Bounding Box Volume: " << bbox.volume() << std::endl;
+    // Run the server until stopped.
+    s.run();
+  }
+  catch (std::exception& e)
+  {
+    std::cerr << "exception: " << e.what() << "\n";
+  }
 
-  double volume;
-  VolumeCalc().calculate(mesh,volume);
-  
-  std::cout << "Volume: " << volume << std::endl;
-  std::cout << "\n" << std::endl;
+
 	return 0;
 }

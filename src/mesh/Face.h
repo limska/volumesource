@@ -2,15 +2,16 @@
 #define _FACE_H_
 
 #include <vector>
+#include <cstddef>
 
 struct Face
 {
   Face() = delete;
-  Face(std::vector<unsigned int> const & verts_)
+  Face(std::vector<std::size_t> const & verts_)
     : verts(verts_)
   {}
 
-  std::vector<unsigned int> verts;
+  std::vector<std::size_t> verts;
 };
 
 #endif

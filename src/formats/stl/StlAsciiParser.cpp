@@ -7,7 +7,6 @@
 #include <sstream>
 #include <algorithm>
 
-
 namespace
 {
   std::string const  SOLID {"solid"};
@@ -318,7 +317,7 @@ handle(std::vector<std::string> const & words)
 
   Vertex v {vx,vy,vz};
 
-  unsigned int id = host.insertVertex(v);
+  std::size_t id = host.insertVertex(v);
 
   vertexIds.push_back(id);
 
@@ -330,7 +329,7 @@ handle(std::vector<std::string> const & words)
   }
 }
 
-unsigned int
+std::deque<Vertex>::size_type
 StlAsciiParser:: 
 insertVertex(Vertex const & v)
 {
@@ -365,7 +364,7 @@ handle(std::vector<std::string> const & words)
   host.curr_state = &host.endfacet;
 }
 
-unsigned int
+std::deque<Face>::size_type
 StlAsciiParser:: 
 insertFace(Face const & f)
 {

@@ -5,6 +5,7 @@
 #include <fstream>
 #include <set>
 #include <deque>
+#include <cstddef>
 
 #include "mesh/Mesh.h"
 #include "mesh/Vertex.h"
@@ -70,7 +71,7 @@ private:
     ReadVertex(StlAsciiParser & host_);
     std::string name() const { return "vertex"; };
     void handle(std::vector<std::string> const & words) override;
-    std::vector<unsigned int> vertexIds;
+    std::vector<std::size_t> vertexIds;
   private:
     int count;
   } vertex;
@@ -104,11 +105,10 @@ private:
 
   State * curr_state;
 
-  unsigned int insertVertex(Vertex const & v);
-  //std::set<Vertex, Vertex::Compare> vertices;
+  std::size_t insertVertex(Vertex const & v);
   std::deque<Vertex> vertices;
 
-  unsigned int insertFace(Face const & f);
+  std::size_t insertFace(Face const & f);
   std::deque<Face> faces;
 };
 

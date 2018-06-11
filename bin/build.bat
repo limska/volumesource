@@ -22,7 +22,7 @@ echo %cd%
 REM cmake -G Ninja %TOP_DIR%
 REM ninja 
 
-cmake -G "Visual Studio 15 2017 Win64" %TOP_DIR%
+cmake -G "Visual Studio 15 2017 Win64" -DBOOST_ROOT="C:\Users\cd8rit\Documents\src\volumesource\boost\1.67.0\boost_1_67_0" %TOP_DIR%
 
 call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\Tools\VsDevCmd.bat"
 cd %TOP_DIR%

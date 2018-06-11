@@ -2,17 +2,18 @@
 #define _EDGE_H_
 
 #include <algorithm>
+#include <cstddef>
 
 struct Edge
 {
   Edge() = delete;
-  Edge(unsigned int id1_, unsigned int id2_)
+  Edge(std::size_t id1_, std::size_t id2_)
    : id1(std::min(id1,id2))
    , id2(std::max(id1,id2))
   {}
 
-  unsigned int id1;
-  unsigned int id2;
+  std::size_t id1;
+  std::size_t id2;
 };
 
 #endif
