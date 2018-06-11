@@ -9,7 +9,13 @@ A simple web service which given an STL will produce a pricing quote for a 3D pr
 
 3. The web server is based on Boost asio http server example
 
-4. A 15% margin has been added at the end.
+4. A 15% margin has been added to the volume at the end.
+
+5. The web server returns just plain text for now. Needs to formated to JSON in future
+
+6. The STL files need to be uploaded to `volumesource\tests`.
+
+7. Server port is hard coded to [http://localhost]
 
 
 ## Building
@@ -42,6 +48,7 @@ cd volumesource
 build\Release\volumesource.exe tests\block100.stl
 ```
 
-## TODO
+Open browser and enter [http://localhost/volume?filename=block100.stl]
+
 
 
