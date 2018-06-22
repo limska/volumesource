@@ -48,7 +48,7 @@ cd volumesource
 build\Release\volumesource.exe tests\block100.stl
 ```
 
-Open browser and enter [http://localhost/volume?filename=block100.stl](http://localhost/volume?filename=block100.stl)
+Open browser and enter [http://178.79.141.54:8080/volume?filename=block100.stl](http://178.79.141.54:8080/volume?filename=block100.stl)
 
 
 
