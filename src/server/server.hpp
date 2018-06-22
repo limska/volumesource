@@ -12,11 +12,14 @@
 #define HTTP_SERVER_HPP
 
 #include "windows_defs.h"
-#include <boost/asio.hpp>
-#include <string>
 #include "connection.hpp"
 #include "connection_manager.hpp"
 #include "request_handler.hpp"
+
+#include "boost/asio.hpp"
+#include "boost/asio/io_context.hpp"
+
+#include <string>
 
 namespace http {
 namespace server {

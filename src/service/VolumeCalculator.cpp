@@ -6,6 +6,7 @@
 #include "calc/Translate.h"
 #include "formats/stl/StlAsciiParser.h"
 
+#include "boost/filesystem.hpp"
 #include <sstream>
 
 void
@@ -18,7 +19,8 @@ calculate(std::string & response)
   out << "Volume Source - Calculate volume of STL surface." << std::endl;
   out << "Calculating volume for: " << filename << std::endl;
 
-  std::string full_path = doc_root + '\\' + filename;
+  std::string sep {boost::filesystem::path::preferred_separator};
+  std::string full_path = doc_root + sep + filename;
 
   StlAsciiParser parser(full_path);
   parser.parse();

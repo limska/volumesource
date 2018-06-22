@@ -11,7 +11,7 @@ main(int argc, char** argv)
   Options opts(argc,argv);
 
   std::string address = "0.0.0.0";
-  std::string port = "80";
+  std::string port = "8080";
   std::string doc_root = "tests";
 
   try
