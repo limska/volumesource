@@ -15,7 +15,7 @@ A simple web service which given an STL will produce a pricing quote for a 3D pr
 
 6. The STL files need to be uploaded to `volumesource\tests`
 
-7. Server port is hard coded to [http://localhost](http://localhost)
+7. Server port is hard coded to [http://178.79.141.54:8080](http://178.79.141.54:8080)
 
 
 ## Building
