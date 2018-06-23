@@ -9,13 +9,30 @@
 #include "boost/filesystem.hpp"
 #include <sstream>
 
+namespace
+{
+  std::string const FILENAME {"filename"};
+};
+
+
 void
 VolumeCalculator::
 calculate(std::string & response)
 {
-  std::string filename = args["filename"];
+  std::map<std::string, std::string>::const_iterator it
+  {
+    args.find(FILENAME)
+  };
 
   std::stringstream out;
+  if (it == args.end())
+  {
+    out << "ERROR - Missing file name." << std::endl;
+    response.append(out.str());
+    return;
+  }
+  std::string filename = args[FILENAME];
+
   out << "Volume Source - Calculate volume of STL surface." << std::endl;
   out << "Calculating volume for: " << filename << std::endl;
 
