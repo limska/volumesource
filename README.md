@@ -48,7 +48,16 @@ cd volumesource
 build\Release\volumesource.exe tests\block100.stl
 ```
 
-Open browser and enter [http://178.79.141.54:8080/volume?filename=block100.stl](http://178.79.141.54:8080/volume?filename=block100.stl)
+Open browser and enter:
+ * [http://178.79.141.54:8080/volume?filename=block100.stl](http://178.79.141.54:8080/volume?filename=block100.stl)
+ * [http://178.79.141.54:8080/volume?filename=bottle.stl](http://178.79.141.54:8080/volume?filename=bottle.stl)
+ * [http://178.79.141.54:8080/volume?filename=humanoid.stl](http://178.79.141.54:8080/volume?filename=humanoid.stl)
+ * [http://178.79.141.54:8080/volume?filename=magnolia.stl](http://178.79.141.54:8080/volume?filename=magnolia.stl)
+ * [http://178.79.141.54:8080/volume?filename=Mario_20170209.STL](http://178.79.141.54:8080/volume?filename=Mario_20170209.STL)
+ * [http://178.79.141.54:8080/volume?filename=shoe.stl](http://178.79.141.54:8080/volume?filename=shoe.stl)
+ * [http://178.79.141.54:8080/volume?filename=sphere.stl](http://178.79.141.54:8080/volume?filename=sphere.stl)
+ * [http://178.79.141.54:8080/volume?filename=teapot.stl](http://178.79.141.54:8080/volume?filename=teapot.stl)
+
 
 
 
