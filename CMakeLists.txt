@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.9.4)
 project (volumesource)
 
 set(Boost_DEBUG OFF)
-find_package(Boost 1.67.0 COMPONENTS program_options system filesystem)
+find_package(Boost 1.67.0 COMPONENTS program_options system filesystem timer chrono)
 if(Boost_FOUND)
   message(STATUS "Found BOOST: ${Boost_VERSION}")
   include_directories(${Boost_INCLUDE_DIRS})

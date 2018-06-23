@@ -4,7 +4,9 @@ BINDIR=`dirname $0`
 BINDIR=`cd $BINDIR && pwd`
 TOPDIR=`dirname $BINDIR`
 VS=$TOPDIR/build/volumesource
-LOG=$TOPDIR/volumesource.log
+LOG=$HOME/volumesource.log
+
+export LD_LIBRARY_PATH=/home/sava/src/volumesource/boost/1.67.0/lib:$LD_LIBRARY_PATH
 
 while true;
 do

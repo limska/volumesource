@@ -7,6 +7,7 @@
 #include "formats/stl/StlAsciiParser.h"
 
 #include "boost/filesystem.hpp"
+#include "boost/timer/timer.hpp"
 #include <sstream>
 
 namespace
@@ -39,13 +40,18 @@ calculate(std::string & response)
   std::string sep {boost::filesystem::path::preferred_separator};
   std::string full_path = doc_root + sep + filename;
 
+  boost::timer::cpu_timer timer;
   StlAsciiParser parser(full_path);
   parser.parse();
 
   Mesh mesh;
   parser.getMesh(mesh);
   BoundingBox bbox = parser.getBoundingBox();
-  out << "Bounding Box Volume: " << bbox.volume() << std::endl;
+  out << "Bounding Box Volume: " << bbox.volume() << "\n" << std::endl;
+
+  out << "Number of faces = " << mesh.faces.size() << std::endl;
+  out << "Number of verticies = " << mesh.verts.size() << "\n" << std::endl;
+  out << "Time to calculate = " << timer.format() << std::endl;
 
   //Translate().calculate(mesh, )
 
